@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
+import 'package:google_fonts/google_fonts.dart';
 import '../models/paper.dart';
 import 'quiz_screen.dart';
 
@@ -22,6 +24,7 @@ class SectionsScreen extends StatelessWidget {
           final section = paper.sections[index];
           return InkWell(
             onTap: () {
+              developer.log('📖 SectionsScreen: Selected section "${section.nameEn}" (index: $index)');
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -63,13 +66,23 @@ class SectionsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            section.name,
+                            section.nameEn,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFF1A237E),
                                 ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 2),
+                          Text(
+                            section.nameBo,
+                            style: GoogleFonts.getFont(
+                              'Noto Serif Tibetan',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF1A237E).withValues(alpha: 0.8),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
                           Text(
                             '${section.questions.length} Questions',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

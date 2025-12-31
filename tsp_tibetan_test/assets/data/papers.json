@@ -5,7 +5,8 @@
     "sections": [
       {
         "id": "s1",
-        "name": "History",
+        "nameEn": "History",
+        "nameBo": "ལོ་རྒྱུས།",
         "questions": [
           {
             "id": "q1",
@@ -47,7 +48,8 @@
       },
       {
         "id": "s2",
-        "name": "General Knowledge",
+        "nameEn": "General Knowledge",
+        "nameBo": "ཐུན་མོང་ཤེས་བྱ།",
         "questions": [
           {
             "id": "q3",
@@ -89,7 +91,8 @@
       },
       {
         "id": "s3",
-        "name": "CTA",
+        "nameEn": "CTA",
+        "nameBo": "བོད་མིའི་སྒྲིག་འཛུགས།",
         "questions": [
           {
             "id": "q5",
@@ -137,7 +140,8 @@
     "sections": [
       {
         "id": "s3",
-        "name": "History",
+        "nameEn": "History",
+        "nameBo": "ལོ་རྒྱུས།",
         "questions": [
           {
             "id": "q6",
@@ -179,7 +183,8 @@
       },
       {
         "id": "s4",
-        "name": "Science",
+        "nameEn": "Science",
+        "nameBo": "ཚན་རིག",
         "questions": [
           {
             "id": "q8",
@@ -227,7 +232,8 @@
     "sections": [
       {
         "id": "s5",
-        "name": "Mathematics",
+        "nameEn": "Mathematics",
+        "nameBo": "ཨང་རྩིས།",
         "questions": [
           {
             "id": "q10",

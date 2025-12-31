@@ -2,12 +2,17 @@ import 'question.dart';
 
 class Section {
   final String id;
-  final String name;
+  final String nameEn;
+  final String nameBo;
   final List<Question> questions;
+
+  // Fallback for backward compatibility if needed, or just a getter
+  String get name => nameEn; 
 
   Section({
     required this.id,
-    required this.name,
+    required this.nameEn,
+    required this.nameBo,
     required this.questions,
   });
 
@@ -17,7 +22,8 @@ class Section {
 
     return Section(
       id: json['id'] as String,
-      name: json['name'] as String,
+      nameEn: json['nameEn'] as String? ?? json['name'] as String, // Fallback to 'name' if 'nameEn' missing
+      nameBo: json['nameBo'] as String? ?? '', // Default to empty if missing
       questions: questionsList,
     );
   }

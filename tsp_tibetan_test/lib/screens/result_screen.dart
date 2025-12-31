@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 import 'package:google_fonts/google_fonts.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -16,6 +17,7 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final percentage = (score / totalQuestions) * 100;
+    developer.log('🏆 ResultScreen: Displaying results - Score: $score/$totalQuestions (${percentage.toStringAsFixed(1)}%), Time: $timeTaken');
     Color resultColor = percentage >= 70
         ? Theme.of(context).colorScheme.secondary
         : (percentage >= 40 ? Colors.orange : Theme.of(context).colorScheme.error);
@@ -99,6 +101,7 @@ class ResultScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    developer.log('🏆 ResultScreen: Navigating back to home');
                     Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 import '../models/paper.dart';
 import '../services/data_service.dart';
 import 'paper_detail_screen.dart';
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    developer.log('🏠 HomeScreen: Initializing and loading papers');
     _papersFuture = _dataService.loadPapers();
   }
 
@@ -39,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           final papers = snapshot.data!;
+          developer.log('🏠 HomeScreen: Displaying ${papers.length} papers');
           return ListView.separated(
             padding: const EdgeInsets.all(20),
             itemCount: papers.length,
@@ -47,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final paper = papers[index];
               return InkWell(
                 onTap: () {
+                  developer.log('🏠 HomeScreen: Tapped on Paper ${paper.year}');
                   Navigator.push(
                     context,
                     MaterialPageRoute(

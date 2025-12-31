@@ -1,0 +1,179 @@
+,
+            "answer": {
+              "en": "Dra and Dru",
+              "bo": "དབྲ་དང་འབྲུ།"
+            }
+          },
+          {
+            "question-num": 2,
+            "question": {
+              "en": "The Tibetan region is divided into three groups as the farmers, the nomads, and the agro-pastoral according to",
+              "bo": "བོད་ཀྱི་ས་ཁུལ་དེ་ཞིང་པ་དང་། འབྲོག་པ། ས་མ་འབྲོག་བཅས་ཁག་གསུམ་དུ་དབྱེ་དོན་ནི་"
+            },
+            "options": [
+              {
+                "en": "their castes",
+                "bo": "རིགས་བཟང་ཞན་གྱི་ཆ་ནས་ཡིན།"
+              },
+              {
+                "en": "their geographical locations",
+                "bo": "ཡུལ་ལུང་མི་གཅིག་པའི་ཆ་ནས་ཡིན།"
+              },
+              {
+                "en": "their languages",
+                "bo": "སྐད་རིགས་མི་གཅིག་པའི་ཆ་ནས་ཡིན།"
+              },
+              {
+                "en": "the state of their livelihood",
+                "bo": "འཚོ་ཐབས་ཀྱི་གནས་བབས་ལ་བརྟེན་ནས་ཡིན།"
+              }
+            ],
+            "answer": {
+              "en": "the state of their livelihood",
+              "bo": "འཚོ་ཐབས་ཀྱི་གནས་བབས་ལ་བརྟེན་ནས་ཡིན།"
+            }
+          },
+          {
+            "question-num": 3,
+            "question": {
+              "en": "Which of the following religion was originated from Persia and Shangshung?",
+              "bo": "གཤམ་གསལ་ལས་སྟག་གཟིག་དང་ཞང་ཞུང་ནས་ནང་འདྲེན་བྱས་པའི་ཆོས་ལུགས་དེ་གང་ཡིན་ནམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "Yungdrung Bon",
+              "bo": "གཡུང་དྲུང་བོན།"
+            }
+          },
+          {
+            "question-num": 4,
+            "question": {
+              "en": "The name of the first of the seven wise ministers of Tibet was",
+              "bo": "བོད་ཀྱི་མཛངས་བློན་མི་བདུན་ལས་དང་པོའི་མཚན་ལ་་་་་་ཟེར།"
+            },
+            "options":,
+            "answer": {
+              "en": "Ru-le kye",
+              "bo": "རུ་ལས་སྐྱེས།"
+            }
+          }
+        ]
+      },
+      {
+        "section_name": "General Knowledge (སྤྱིར་བཏང་ཤེས་བྱ།)",
+        "questions":,
+            "answer": {
+              "en": "Permanent Strategy Committee",
+              "bo": "ཐབས་བྱུས་འཆར་འགོད་ཚོགས་ཆུང་།"
+            }
+          },
+          {
+            "question-num": 31,
+            "question": {
+              "en": "The 'Zam' hydroelectric power station reservoir is built along which river?",
+              "bo": "རྫམ་ཆུ་ཤུགས་གློག་ཁང་ཞེས་པའི་ཆུ་མཛོད་དེ་གཙང་པོ་གང་གི་འགྲམ་དུ་གསར་རྒྱག་བྱས་ཡོད་དམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "Yangtze River (Dri Chu)",
+              "bo": "འབྲི་ཆུ།"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": "2020",
+    "sections":,
+            "answer": {
+              "en": "127 BC",
+              "bo": "ཡེ་ཤུ་མ་ཤི་ཀ་མ་འདས་གོང་ལོ་ ༡༢༧།"
+            }
+          },
+          {
+            "question-num": 2,
+            "question": {
+              "en": "Who was the father of King Songtsen Gampo?",
+              "bo": "ཆོས་རྒྱལ་སྲོང་བཙན་སྒམ་པོའི་ཡབ་ཀྱི་མཚན་ག་རེ་རེད་དམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "Namri Songtsen",
+              "bo": "གནམ་རི་སྲོང་བཙན།"
+            }
+          },
+          {
+            "question-num": 3,
+            "question": {
+              "en": "Who ordained the first Tibetan Buddhist monk in Tibet?",
+              "bo": "བོད་ནང་རབ་བྱུང་གི་སྡེ་ཐོག་མ་སུས་གཙུག་གནང་བ་ཡིན་ནམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "Shantarakshita",
+              "bo": "མཁན་ཆེན་ཞི་བ་མཚོ།"
+            }
+          },
+          {
+            "question-num": 4,
+            "question": {
+              "en": "Which Indian structure resembles Samye Monastery?",
+              "bo": "བསམ་ཡས་མི་འགྱུར་ལྷུན་གྱི་གྲུབ་པའི་གཙུག་ལག་ཁང་དེ་རྒྱ་གར་གྱི་གཙུག་ལག་ཁང་ཇི་དང་འདྲ་བ་བཞེངས་ཡོད་དམ།"
+            },
+            "options": [
+              {
+                "en": "Nalanda",
+                "bo": "ནཱ་ལེན་ཌ།"
+              },
+              {
+                "en": "Odantapuri",
+                "bo": "ཨོ་ཏན་ཏ་པུ་རི།"
+              }
+            ],
+            "answer": {
+              "en": "Odantapuri",
+              "bo": "ཨོ་ཏན་ཏ་པུ་རི།"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": "2019",
+    "sections":,
+            "answer": {
+              "en": "On 5th April, 1642",
+              "bo": "ཕྱི་ལོ་ ༡༦༤༢ ཟླ་ ༤ ཚེས་ ༥ ཉིན།"
+            }
+          },
+          {
+            "question-num": 2,
+            "question": {
+              "en": "Which Dalai Lama expanded the Potala Palace initially built by King Songtsen Gampo?",
+              "bo": "ཆོས་རྒྱལ་སྲོང་བཙན་སྒམ་པོས་བཞེངས་པའི་ཕོ་བྲང་པོ་ཏཱ་ལ་ཕྱིས་སུ་༸རྒྱལ་དབང་སྐུ་ཕྲེང་སུས་རྒྱ་བསྐྱེད་མཛད་དམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "The 5th Dalai Lama",
+              "bo": "༸རྒྱལ་དབང་སྐུ་ཕྲེང་ལྔ་པ་མཆོག"
+            }
+          },
+          {
+            "question-num": 3,
+            "question": {
+              "en": "What is the title of the history book written by the 5th Dalai Lama?",
+              "bo": "༸རྒྱལ་དབང་སྐུ་ཕྲེང་ལྔ་པ་ཆེན་པོས་ལྗགས་རྩོམ་གནང་བའི་བོད་ཀྱི་རྒྱལ་རབས་དཔེ་དེབ་ཀྱི་མཚན་བྱང་གང་ཡིན་ནམ།"
+            },
+            "options":,
+            "answer": {
+              "en": "Song of the Spring Queen (Dpyid kyi rgyal mo'i glu dbyangs)",
+              "bo": "བོད་ཀྱི་དེབ་ཐེར་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས།"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_screen.dart';
 
 void main() {
+  developer.log('🚀 App Starting: TSP Tibetan Test');
   runApp(const PastPapersApp());
 }
 
