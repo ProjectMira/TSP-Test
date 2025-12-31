@@ -1,0 +1,272 @@
+[
+  {
+    "id": "p1",
+    "year": "2024",
+    "sections": [
+      {
+        "id": "s1",
+        "name": "History",
+        "questions": [
+          {
+            "id": "q1",
+            "textEn": "In which year did the Dalai Lama flee to India?",
+            "textBo": "༧གོང་ས་མཆོག་རྒྱ་གར་ལ་ནམ་ཕེབས་པ་རེད།",
+            "optionsEn": [
+              "1949",
+              "1959",
+              "1969",
+              "1989"
+            ],
+            "optionsBo": [
+              "༡༩༤༩",
+              "༡༩༥༩",
+              "༡༩༦༩",
+              "༡༩༨༩"
+            ],
+            "correctOptionIndex": 1
+          },
+          {
+            "id": "q2",
+            "textEn": "Who was the first Dharma King of Tibet?",
+            "textBo": "བོད་ཀྱི་ཆོས་རྒྱལ་དང་པོ་སུ་རེད།",
+            "optionsEn": [
+              "Trisong Detsen",
+              "Songtsen Gampo",
+              "Ralpacan",
+              "Lang Darma"
+            ],
+            "optionsBo": [
+              "ཁྲི་སྲོང་ལྡེ་བཙན།",
+              "སྲོང་བཙན་སྒམ་པོ།",
+              "རལ་པ་ཅན།",
+              "གླང་དར་མ།"
+            ],
+            "correctOptionIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "General Knowledge",
+        "questions": [
+          {
+            "id": "q3",
+            "textEn": "What is the capital of Tibet?",
+            "textBo": "བོད་ཀྱི་རྒྱལ་ས་གང་རེད།",
+            "optionsEn": [
+              "Lhasa",
+              "Shigatse",
+              "Gyantse",
+              "Chamdo"
+            ],
+            "optionsBo": [
+              "ལྷ་ས།",
+              "གཞིས་ཀ་རྩེ།",
+              "རྒྱལ་རྩེ།",
+              "ཆབ་མདོ།"
+            ],
+            "correctOptionIndex": 0
+          },
+          {
+            "id": "q4",
+            "textEn": "Which is the highest mountain in the world?",
+            "textBo": "འཛམ་གླིང་གི་རི་བོ་མཐོ་ཤོས་གང་རེད།",
+            "optionsEn": [
+              "K2",
+              "Mount Everest",
+              "Kangchenjunga",
+              "Lhotse"
+            ],
+            "optionsBo": [
+              "ཀེ་༢",
+              "ཇོ་མོ་གླང་མ།",
+              "གངས་ཆེན་མཛོད་ལྔ།",
+              "ལྷོ་རྩེ།"
+            ],
+            "correctOptionIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "CTA",
+        "questions": [
+          {
+            "id": "q5",
+            "textEn": "Where is the headquarters of CTA?",
+            "textBo": "བོད་མིའི་སྒྲིག་འཛུགས་ཀྱི་ལྟེ་གནས་གང་དུ་ཡོད་དམ།",
+            "optionsEn": [
+              "Delhi",
+              "Dharamshala",
+              "Bylakuppe",
+              "Mundgod"
+            ],
+            "optionsBo": [
+              "ལྡི་ལི།",
+              "རྡ་རམ་ས་ལ།",
+              "སྦེལ་ཀོབ།",
+              "མོན་གྷོ།"
+            ],
+            "correctOptionIndex": 1
+          },
+          {
+            "id": "q6",
+            "textEn": "Who is the current Sikyong?",
+            "textBo": "ད་ལྟའི་སྲིད་སྐྱོང་སུ་རེད།",
+            "optionsEn": [
+              "Lobsang Sangay",
+              "Penpa Tsering",
+              "Samdhong Rinpoche",
+              "Tashi Wangdu"
+            ],
+            "optionsBo": [
+              "བློ་བཟང་སེང་གེ།",
+              "སྤེན་པ་ཚེ་རིང་།",
+              "ཟམ་གདོང་རིན་པོ་ཆེ།",
+              "བཀྲ་ཤིས་དབང་འདུས།"
+            ],
+            "correctOptionIndex": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "year": "2023",
+    "sections": [
+      {
+        "id": "s3",
+        "name": "History",
+        "questions": [
+          {
+            "id": "q6",
+            "textEn": "In which year did the Dalai Lama flee to India?",
+            "textBo": "༧གོང་ས་མཆོག་རྒྱ་གར་ལ་ནམ་ཕེབས་པ་རེད།",
+            "optionsEn": [
+              "1949",
+              "1959",
+              "1969",
+              "1989"
+            ],
+            "optionsBo": [
+              "༡༩༤༩",
+              "༡༩༥༩",
+              "༡༩༦༩",
+              "༡༩༨༩"
+            ],
+            "correctOptionIndex": 1
+          },
+          {
+            "id": "q7",
+            "textEn": "Who was the first Dharma King of Tibet?",
+            "textBo": "བོད་ཀྱི་ཆོས་རྒྱལ་དང་པོ་སུ་རེད།",
+            "optionsEn": [
+              "Trisong Detsen",
+              "Songtsen Gampo",
+              "Ralpacan",
+              "Lang Darma"
+            ],
+            "optionsBo": [
+              "ཁྲི་སྲོང་ལྡེ་བཙན།",
+              "སྲོང་བཙན་སྒམ་པོ།",
+              "རལ་པ་ཅན།",
+              "གླང་དར་མ།"
+            ],
+            "correctOptionIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Science",
+        "questions": [
+          {
+            "id": "q8",
+            "textEn": "What is the chemical symbol for water?",
+            "textBo": "ཆུའི་རྫས་འགྱུར་མཚོན་རྟགས་གང་རེད།",
+            "optionsEn": [
+              "H2O",
+              "CO2",
+              "O2",
+              "NaCl"
+            ],
+            "optionsBo": [
+              "H2O",
+              "CO2",
+              "O2",
+              "NaCl"
+            ],
+            "correctOptionIndex": 0
+          },
+          {
+            "id": "q9",
+            "textEn": "Which planet is known as the Red Planet?",
+            "textBo": "གཟའ་མིག་དམར་ཞེས་པ་གང་རེད།",
+            "optionsEn": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Saturn"
+            ],
+            "optionsBo": [
+              "པ་སངས།",
+              "མིག་དམར།",
+              "ཕུར་བ།",
+              "སྤེན་པ།"
+            ],
+            "correctOptionIndex": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "year": "2022",
+    "sections": [
+      {
+        "id": "s5",
+        "name": "Mathematics",
+        "questions": [
+          {
+            "id": "q10",
+            "textEn": "What is 12 x 12?",
+            "textBo": "༡༢ x ༡༢ ག་ཚོད་རེད།",
+            "optionsEn": [
+              "124",
+              "144",
+              "164",
+              "184"
+            ],
+            "optionsBo": [
+              "༡༢༤",
+              "༡༤༤",
+              "༡༦༤",
+              "༡༨༤"
+            ],
+            "correctOptionIndex": 1
+          },
+          {
+            "id": "q11",
+            "textEn": "What is the square root of 81?",
+            "textBo": "༨༡ གི་རྩ་གྲངས་ག་ཚོད་རེད།",
+            "optionsEn": [
+              "7",
+              "8",
+              "9",
+              "10"
+            ],
+            "optionsBo": [
+              "༧",
+              "༨",
+              "༩",
+              "༡༠"
+            ],
+            "correctOptionIndex": 2
+          }
+        ]
+      }
+    ]
+  }
+]
