@@ -1,0 +1,21 @@
+# Sensitive files - NEVER commit these
+*.jks
+*.keystore
+*.p12
+*.p8
+*.mobileprovision
+key.properties
+*-base64.txt
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Build outputs
+build/
+*.log
+
