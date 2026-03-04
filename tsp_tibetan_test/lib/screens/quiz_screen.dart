@@ -4,18 +4,23 @@ import 'dart:developer' as developer;
 import 'package:google_fonts/google_fonts.dart';
 import '../models/paper.dart';
 import '../models/question.dart';
+import '../services/app_settings_controller.dart';
+import '../services/feedback_service.dart';
+import '../services/score_service.dart';
 import 'result_screen.dart';
 
 enum LanguageMode { english, tibetan, both }
 
 class QuizScreen extends StatefulWidget {
   final Paper paper;
+  final AppSettingsController settingsController;
   final int startSectionIndex;
   final bool onlyOneSection;
 
   const QuizScreen({
     super.key,
     required this.paper,
+    required this.settingsController,
     required this.startSectionIndex,
     this.onlyOneSection = false,
   });
@@ -35,40 +40,34 @@ class _QuizScreenState extends State<QuizScreen> {
 
   int? _selectedOptionIndex;
   bool _isAnswered = false;
+  final ScoreService _scoreService = ScoreService();
+  final FeedbackService _feedbackService = FeedbackService();
 
   @override
   void initState() {
     super.initState();
-    developer.log('🎯 QuizScreen: Initializing quiz for paper ${widget.paper.year}');
-    developer.log('🎯 QuizScreen: Start section: ${widget.startSectionIndex}, Only one section: ${widget.onlyOneSection}');
     currentSectionIndex = widget.startSectionIndex;
     currentQuestionIndex = 0;
     _loadQuestions();
     _startTimer();
+    _feedbackService.initialize();
   }
 
   void _loadQuestions() {
     allQuestions = [];
     if (widget.onlyOneSection) {
       final section = widget.paper.sections[widget.startSectionIndex];
-      developer.log('🎯 QuizScreen: Loading single section "${section.nameEn}" with ${section.questions.length} questions');
       allQuestions.addAll(section.questions);
     } else {
-      developer.log('🎯 QuizScreen: Loading ALL sections');
       for (int i = 0; i < widget.paper.sections.length; i++) {
-        final section = widget.paper.sections[i];
-        developer.log('   📖 Adding section "${section.nameEn}" with ${section.questions.length} questions');
-        allQuestions.addAll(section.questions);
+        allQuestions.addAll(widget.paper.sections[i].questions);
       }
-      // Adjust currentQuestionIndex to point to the start of the selected section
       int startIndex = 0;
       for (int i = 0; i < widget.startSectionIndex; i++) {
         startIndex += widget.paper.sections[i].questions.length;
       }
       currentQuestionIndex = startIndex;
-      developer.log('🎯 QuizScreen: Starting at question index $startIndex');
     }
-    developer.log('🎯 QuizScreen: Total questions loaded: ${allQuestions.length}');
   }
 
   void _startTimer() {
@@ -95,8 +94,8 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_isAnswered) return;
 
     final question = allQuestions[currentQuestionIndex];
-    final isCorrect = selectedIndex == question.correctOptionIndex;
-    developer.log('🎯 QuizScreen: Question ${currentQuestionIndex + 1} answered: selected=$selectedIndex, correct=${question.correctOptionIndex}, isCorrect=$isCorrect');
+    final hasKnownCorrectAnswer = question.correctOptionIndex != null;
+    final isCorrect = hasKnownCorrectAnswer && selectedIndex == question.correctOptionIndex;
 
     setState(() {
       _isAnswered = true;
@@ -105,7 +104,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (isCorrect) {
       score++;
-      developer.log('🎯 QuizScreen: Score updated to $score');
+      _feedbackService.playCorrect();
+    } else {
+      _feedbackService.playIncorrect();
     }
 
     Future.delayed(const Duration(seconds: 1), () {
@@ -141,32 +142,36 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  void _jumpToSection(int sectionIndex) {
-    if (widget.onlyOneSection) return;
-
-    int startIndex = 0;
-    for (int i = 0; i < sectionIndex; i++) {
-      startIndex += widget.paper.sections[i].questions.length;
-    }
-
-    setState(() {
-      currentSectionIndex = sectionIndex;
-      currentQuestionIndex = startIndex;
-      _isAnswered = false;
-      _selectedOptionIndex = null;
-    });
-  }
-
-  void _finishQuiz() {
+  Future<void> _finishQuiz() async {
     _timer?.cancel();
-    developer.log('🎯 QuizScreen: Quiz finished! Score: $score/${allQuestions.length}, Time: $_formattedTime');
+
+    final selectedSection = widget.paper.sections[widget.startSectionIndex];
+    final scopeKey = widget.onlyOneSection ? 'section:${_slug(selectedSection.nameEn)}' : 'full';
+    final scopeLabel = widget.onlyOneSection ? selectedSection.nameEn : 'Full Test';
+
+    final saveResult = await _scoreService.saveAttempt(
+      paperYear: widget.paper.year,
+      scopeKey: scopeKey,
+      scopeLabel: scopeLabel,
+      score: score,
+      totalQuestions: allQuestions.length,
+      durationSeconds: _secondsElapsed,
+    );
+
+    if (!mounted) return;
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => ResultScreen(
+          settingsController: widget.settingsController,
+          paperYear: widget.paper.year,
+          scopeLabel: scopeLabel,
           score: score,
           totalQuestions: allQuestions.length,
           timeTaken: _formattedTime,
+          bestPercentage: saveResult.bestForScope.percentage,
+          attemptsInScope: saveResult.attemptsInScope,
         ),
       ),
     );
@@ -181,7 +186,6 @@ class _QuizScreenState extends State<QuizScreen> {
       } else {
         languageMode = LanguageMode.english;
       }
-      developer.log('🎯 QuizScreen: Language mode changed to ${languageMode.name}');
     });
   }
 
@@ -196,37 +200,58 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+  String _slug(String input) {
+    return input.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-+|-+$'), '');
+  }
+
+  String _optionBoAt(Question question, int index) {
+    if (index < question.optionsBo.length) {
+      final value = question.optionsBo[index].trim();
+      if (value.isNotEmpty) return value;
+    }
+    return question.optionsEn[index];
+  }
+
+  String _questionTextBo(Question question) {
+    final value = question.textBo.trim();
+    return value.isNotEmpty ? value : question.textEn;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
     if (allQuestions.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: const Text('Quiz')),
-        body: const Center(child: Text('No questions in this section.')),
+        body: Center(child: Text(widget.settingsController.tr('No questions in this section.', 'དོན་ཚན་འདིར་དྲི་བ་མེད།'))),
       );
     }
 
     final question = allQuestions[currentQuestionIndex];
-    
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: colors.surface,
       appBar: AppBar(
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            color: colors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.timer_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
+              Icon(Icons.timer_outlined, size: 20, color: colors.primary),
               const SizedBox(width: 8),
               Text(
                 _formattedTime,
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: colors.primary,
                 ),
               ),
             ],
@@ -235,12 +260,12 @@ class _QuizScreenState extends State<QuizScreen> {
         actions: [
           TextButton.icon(
             onPressed: _toggleLanguage,
-            icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
+            icon: Icon(Icons.language, color: colors.primary),
             label: Text(
               _getLanguageButtonText(),
               style: GoogleFonts.inter(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: colors.primary,
               ),
             ),
           ),
@@ -253,10 +278,10 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+              color: colors.primary.withValues(alpha: 0.08),
               border: Border(
                 bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                  color: colors.primary.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -269,12 +294,11 @@ class _QuizScreenState extends State<QuizScreen> {
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: colors.primary,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                if (languageMode == LanguageMode.both)
-                  const SizedBox(height: 4),
+                if (languageMode == LanguageMode.both) const SizedBox(height: 4),
                 if (languageMode == LanguageMode.tibetan || languageMode == LanguageMode.both)
                   Text(
                     widget.paper.sections[currentSectionIndex].nameBo,
@@ -282,7 +306,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       'Noto Serif Tibetan',
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: colors.primary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -297,16 +321,19 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   LinearProgressIndicator(
                     value: (currentQuestionIndex + 1) / allQuestions.length,
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
+                    backgroundColor: colors.onSurface.withValues(alpha: 0.12),
+                    valueColor: AlwaysStoppedAnimation<Color>(colors.primary),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Question ${currentQuestionIndex + 1}/${allQuestions.length}',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Colors.grey[600],
-                        ),
+                    widget.settingsController.tr(
+                      'Question ${currentQuestionIndex + 1}/${allQuestions.length}',
+                      'དྲི་བ་${currentQuestionIndex + 1}/${allQuestions.length}',
+                    ),
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: colors.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Expanded(
@@ -317,49 +344,53 @@ class _QuizScreenState extends State<QuizScreen> {
                           if (languageMode == LanguageMode.english || languageMode == LanguageMode.both)
                             Text(
                               question.textEn,
-                              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                    fontSize: 22,
-                                    height: 1.4,
-                                  ),
+                              style: theme.textTheme.displayMedium?.copyWith(
+                                fontSize: 22,
+                                height: 1.4,
+                                color: colors.onSurface,
+                              ),
                             ),
                           if (languageMode == LanguageMode.both) const SizedBox(height: 16),
                           if (languageMode == LanguageMode.tibetan || languageMode == LanguageMode.both)
                             Text(
-                              question.textBo,
+                              _questionTextBo(question),
                               style: GoogleFonts.getFont(
                                 'Noto Serif Tibetan',
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 height: 1.5,
+                                color: colors.onSurface,
                               ),
                             ),
                           const SizedBox(height: 40),
                           ...List.generate(question.optionsEn.length, (index) {
                             final isSelected = _selectedOptionIndex == index;
-                            final isCorrect = index == question.correctOptionIndex;
-                            
+                            final isCorrect = question.correctOptionIndex != null && index == question.correctOptionIndex;
+
                             Color? backgroundColor;
                             Color? borderColor;
-                            Color textColor = Colors.black87;
+                            Color textColor = colors.onSurface;
 
                             if (_isAnswered) {
                               if (isSelected) {
                                 if (isCorrect) {
-                                  backgroundColor = Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2);
-                                  borderColor = Theme.of(context).colorScheme.secondary;
-                                  textColor = Theme.of(context).colorScheme.secondary;
+                                  backgroundColor = colors.secondary.withValues(alpha: 0.2);
+                                  borderColor = colors.secondary;
+                                  textColor = colors.secondary;
                                 } else {
-                                  backgroundColor = Theme.of(context).colorScheme.error.withValues(alpha: 0.2);
-                                  borderColor = Theme.of(context).colorScheme.error;
-                                  textColor = Theme.of(context).colorScheme.error;
+                                  backgroundColor = colors.error.withValues(alpha: 0.2);
+                                  borderColor = colors.error;
+                                  textColor = colors.error;
                                 }
                               } else if (isCorrect) {
-                                // Show correct answer even if not selected
-                                backgroundColor = Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2);
-                                borderColor = Theme.of(context).colorScheme.secondary;
-                                textColor = Theme.of(context).colorScheme.secondary;
+                                backgroundColor = colors.secondary.withValues(alpha: 0.2);
+                                borderColor = colors.secondary;
+                                textColor = colors.secondary;
                               }
                             }
+
+                            final defaultBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+                            final defaultBorder = isDark ? const Color(0xFF3A3A3A) : Colors.grey.shade300;
 
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),
@@ -369,9 +400,9 @@ class _QuizScreenState extends State<QuizScreen> {
                                 child: Container(
                                   padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
-                                    color: backgroundColor ?? Colors.white,
+                                    color: backgroundColor ?? defaultBg,
                                     border: Border.all(
-                                      color: borderColor ?? Colors.grey.shade300,
+                                      color: borderColor ?? defaultBorder,
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(16),
@@ -384,17 +415,17 @@ class _QuizScreenState extends State<QuizScreen> {
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: _isAnswered && (isSelected || isCorrect)
-                                              ? (isCorrect ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error)
-                                              : Colors.grey.shade100,
+                                              ? (isCorrect ? colors.secondary : colors.error)
+                                              : colors.onSurface.withValues(alpha: 0.08),
                                         ),
                                         child: Center(
                                           child: Text(
-                                            String.fromCharCode(65 + index), // A, B, C, D
+                                            String.fromCharCode(65 + index),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: _isAnswered && (isSelected || isCorrect)
                                                   ? Colors.white
-                                                  : Colors.grey.shade600,
+                                                  : colors.onSurface.withValues(alpha: 0.6),
                                             ),
                                           ),
                                         ),
@@ -416,7 +447,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                             if (languageMode == LanguageMode.both) const SizedBox(height: 4),
                                             if (languageMode == LanguageMode.tibetan || languageMode == LanguageMode.both)
                                               Text(
-                                                question.optionsBo[index],
+                                                _optionBoAt(question, index),
                                                 style: GoogleFonts.getFont(
                                                   'Noto Serif Tibetan',
                                                   fontSize: 18,
@@ -429,7 +460,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                       if (_isAnswered && isSelected)
                                         Icon(
                                           isCorrect ? Icons.check_circle : Icons.cancel,
-                                          color: isCorrect ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error,
+                                          color: isCorrect ? colors.secondary : colors.error,
                                         ),
                                     ],
                                   ),

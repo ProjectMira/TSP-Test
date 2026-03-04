@@ -74,3 +74,8 @@ Run the tests using:
 ```bash
 flutter test
 ```
+
+## Documentation
+
+- Local setup and testing: `docs/RUN_LOCALLY.md`
+- Publishing steps: `docs/PUBLISH_TO_STORES.md`

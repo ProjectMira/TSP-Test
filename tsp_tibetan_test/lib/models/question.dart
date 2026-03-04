@@ -4,7 +4,7 @@ class Question {
   final String textBo;
   final List<String> optionsEn;
   final List<String> optionsBo;
-  final int correctOptionIndex;
+  final int? correctOptionIndex;
 
   Question({
     required this.id,
@@ -16,13 +16,19 @@ class Question {
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
+    final optionsEn = List<String>.from(json['optionsEn']);
+    final optionsBoRaw = List<String>.from(json['optionsBo'] ?? const <String>[]);
+    final optionsBo = optionsBoRaw.length == optionsEn.length
+        ? optionsBoRaw
+        : List<String>.filled(optionsEn.length, '');
+
     return Question(
       id: json['id'] as String,
       textEn: json['textEn'] as String,
-      textBo: json['textBo'] as String,
-      optionsEn: List<String>.from(json['optionsEn']),
-      optionsBo: List<String>.from(json['optionsBo']),
-      correctOptionIndex: json['correctOptionIndex'] as int,
+      textBo: json['textBo'] as String? ?? '',
+      optionsEn: optionsEn,
+      optionsBo: optionsBo,
+      correctOptionIndex: json['correctOptionIndex'] as int?,
     );
   }
 }

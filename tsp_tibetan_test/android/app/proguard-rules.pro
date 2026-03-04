@@ -6,13 +6,11 @@
 -keep class io.flutter.**  { *; }
 -keep class io.flutter.plugins.**  { *; }
 
-# Keep Google Fonts
--keep class com.google.android.gms.** { *; }
+# Google Play Core (required by Flutter deferred components)
+-dontwarn com.google.android.play.core.**
 
-# Prevent obfuscation of types which use ButterKnife annotations
--keep class butterknife.*
--keepclasseswithmembernames class * { @butterknife.* <methods>; }
--keepclasseswithmembernames class * { @butterknife.* <fields>; }
+# Keep Google Fonts / GMS
+-keep class com.google.android.gms.** { *; }
 
 # Keep Parcelable classes
 -keep class * implements android.os.Parcelable {
